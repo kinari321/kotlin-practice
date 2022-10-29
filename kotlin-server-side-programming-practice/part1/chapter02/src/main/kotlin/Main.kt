@@ -1,41 +1,31 @@
 fun main() {
-//    # アクセサメソッド
-//    val user = User7(1, "tanaka")
-//    user.name = "Kotlin"
-//    println(user.name)
+    // デフォルト引数
+//    val user8 = User8(1)
+//    println(user8.toString())
+    // 名前付き引数
+//    val user9 = User9(1, "Tanaka", 24)
+//    println(user9)
 
-//    # equals
-//    val user = User7(1, "tanaka")
-//    val same = User7(1, "tanaka")
-//    val other = User7(2, "tanaka")
-//
-//    println(user == same)
-//    println(user == other)
+    // 関数型
+     // 足し算
+    val calc: (Int, Int) -> Int = { num1: Int, num2: Int -> num1 + num2 }
+    val calc1: (Int, Int) -> Int = { num1, num2 -> num1 + num2 }
+    println(calc(5, 10))
+     // 二乗
+    val squared1: (Int) -> Int = { it * it }
+    val squared2: (Int) -> Int = fun(num: Int): Int { return num * num }
+    println(squared2(5))
 
-//    # hashCode
-//    val user = User7(1, "tanaka")
-//    val same = User7(1, "tanaka")
-//    val other = User7(2, "tanaka")
-//
-//    val set = hashSetOf(user)
-//    println(set.contains(same))
-//    println(set.contains(other))
-
-//    # toString
-//    val user = User7(1, "tanaka")
-//    println(user.toString())
-
-//    # componentN
-//    val user = User7(1, "tanaka")
-//    println(
-//        "user.component1(): $user.component1()" +
-//                "$user.component2()"
-//    )
-
-//    # copy
-    val user = User7(1, "tanaka")
-    val updated = user.copy(1, "Kotlin")
-    println(updated.toString())
+    // 高階関数
+    printCalcResult(10, 20, { num1, num2 -> num1 + num2 })
+    printCalcResult(10, 20, { num1, num2 -> num1 * num2 })
 }
 
-data class User7(val id: Int, var name: String)
+//data class User8(val id: Int, val name: String = "Default Name")
+
+data class User9(val id: Int, val name: String = "Default Name", val age: Int)
+
+fun printCalcResult(num1: Int, num2: Int, calc: (Int, Int) -> Int) {
+    val result = calc(num1, num2)
+    println(result)
+}

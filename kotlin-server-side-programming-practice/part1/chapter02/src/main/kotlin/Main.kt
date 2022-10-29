@@ -1,25 +1,64 @@
 fun main() {
-    // 高階関数
-    printCalcResult(10, 20, { num1, num2 -> num1 + num2 })
-    printCalcResult(10, 20, { num1, num2 -> num1 * num2 })
+    // スコープ関数
+    val list = mutableListOf<Int>()
+    for (i in 1..10) {
+        if (i % 2 == 1) list.add(i)
+    }
+    val oddNumbers = list.joinToString(separator = " ")
+    println(oddNumbers)
 
-    // タイプエイリアスに置き換え
-    printCalcResult1(10, 20, { num1, num2 -> num1 + num2 })
 
-    // 拡張機能
-    println(3.square())
+    // with
+    val oddNumbersWith = with(mutableListOf<Int>()) {
+        for (i in 1..10) {
+            if (i % 2 == 1) this.add(i)
+        }
+        this.joinToString(separator = "")
+    }
+    println(oddNumbersWith)
+
+
+    // run
+    val oddNumbersRun = mutableListOf<Int>().run {
+        for (i in 1..10) {
+            if (i % 2 == 1) this.add(i)
+        }
+        this.joinToString(separator = ",")
+    }
+    println(oddNumbersRun)
+
+
+    // let
+    data class User(val name: String)
+
+    fun createUserLet(name: String?): User? {
+        return if (name != null) User(name) else null
+    }
+
+
+    // apply(alsoを推奨)
+    data class User1(val id: Int, var name: String, var address: String)
+
+    fun getUser(id: Int): User1 {
+        return User1(id, "Tanaka", "Tokyo")
+    }
+
+    fun updateUserApply(id: Int, newName: String, newAddress: String) {
+        val userApply = getUser(id).apply {
+            name = newName
+            address = newAddress
+        }
+        println(userApply)
+    }
+    updateUserApply(100, "TanakaKotlin", "NY")
+
+
+    // also
+    fun updateUserAlso(id: Int, newName: String, newAddress: String) {
+        val userAlso = getUser(id).also { u ->
+            u.name = newName
+            u.address = newAddress
+        }
+        println(userAlso)
+    }
 }
-
-typealias Calc = (Int, Int) -> Int
-
-fun printCalcResult(num1: Int, num2: Int, calc: (Int, Int) -> Int) {
-    val result = calc(num1, num2)
-    println(result)
-}
-
-fun printCalcResult1(num1: Int, num2: Int, calc: Calc) {
-    val result = calc(num1, num2)
-    println(result)
-}
-
-fun Int.square(): Int = this * this

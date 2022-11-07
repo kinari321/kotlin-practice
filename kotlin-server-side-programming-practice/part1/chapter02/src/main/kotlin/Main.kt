@@ -1,4 +1,4 @@
-import java.beans.BeanProperty
+//import java.beans.BeanProperty
 import java.lang.IllegalStateException
 import kotlin.reflect.KProperty
 
@@ -30,11 +30,11 @@ fun main() {
     println(oddNumbersRun)
 
     // let
-    data class User(val name: String)
+//    data class User(val name: String)
 
-    fun createUserLet(name: String?): User? {
-        return if (name != null) User(name) else null
-    }
+//    fun createUserLet(name: String?): User? {
+//        return if (name != null) User(name) else null
+//    }
 
     // apply(alsoを推奨)
     data class User1(val id: Int, var name: String, var address: String)
@@ -53,13 +53,13 @@ fun main() {
     updateUserApply(100, "TanakaKotlin", "NY")
 
     // also
-    fun updateUserAlso(id: Int, newName: String, newAddress: String) {
-        val userAlso = getUser(id).also { u ->
-            u.name = newName
-            u.address = newAddress
-        }
-        println(userAlso)
-    }
+//    fun updateUserAlso(id: Int, newName: String, newAddress: String) {
+//        val userAlso = getUser(id).also { u ->
+//            u.name = newName
+//            u.address = newAddress
+//        }
+//        println(userAlso)
+//    }
 
     // デリゲート
     val executorDelegate = AddCalclationExecutorExecutorDelegate(CommonCalculationExecutor())
@@ -72,6 +72,20 @@ fun main() {
     delegatePerson.address = "Tokyo"
     println(delegatePerson.address)
 
+    //コレクションライブラリ
+    val userList =
+        listOf(User1(1, "hoge", "Kotlin"), User1(2, "fuga", "Java"), User1(3, "piyo", "Kotlin"))
+    println("idが２以上のUser: ${userList.filter { it.id >= 2 }}")
+    println("最初のUser: ${userList.firstOrNull()}")
+    println("最後のUser: ${userList.lastOrNull()}")
+    println("重複のないuserList ${userList.distinct()}")
+    println("map生成: ${userList.associateBy { it.id }}")
+    println("map生成,任意の値: ${userList.associateWith { it.address.length }}")
+    println("group化: ${userList.groupBy { it.address }}")
+    println("count: ${userList.count()}")
+    println("分割: ${userList.chunked(2)}")
+    val listNum = listOf<Int>(1, 2, 3, 4, 5)
+    println("畳み込み ${listNum.reduce { sum, value -> sum * value }}")
 }
 
 interface CalclationExecutor {

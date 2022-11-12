@@ -1,6 +1,12 @@
 //import java.beans.BeanProperty
 import java.lang.IllegalStateException
 import kotlin.reflect.KProperty
+//import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+
 
 fun main() {
     // スコープ関数
@@ -86,6 +92,9 @@ fun main() {
     println("分割: ${userList.chunked(2)}")
     val listNum = listOf<Int>(1, 2, 3, 4, 5)
     println("畳み込み ${listNum.reduce { sum, value -> sum * value }}")
+
+    println("=== コルーチン ===")
+    coroutine()
 }
 
 interface CalclationExecutor {
@@ -129,3 +138,49 @@ class DelegatePerson {
     var name: String by DelegateWithMessage()
     var address: String by DelegateWithMessage()
 }
+
+// coroutine
+fun coroutine() {
+//    GlobalScope.launch {
+//        delay(1000L)
+//        println("Naoto.")
+//    }
+    println("My name is")
+    Thread.sleep(2000L)
+
+    runBlocking {
+        launch { printName() }
+    }
+    asyncAwait()
+}
+
+suspend fun printName() {
+    delay(1000L)
+    println("サスペンド関数を呼び出しています")
+}
+
+fun asyncAwait() {
+    runBlocking {
+        val num1 = async {
+            delay(2000L)
+            1 + 2
+        }
+        val num2 = async {
+            delay(1000L)
+            3 + 4
+        }
+        println("計算中...")
+        println("sum=${num1.await() + num2.await()}")
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
